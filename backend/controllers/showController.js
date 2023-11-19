@@ -1,11 +1,15 @@
 //async -- to add promise based requests, to avoid try catches use express-async-handler.
 const asyncHandler = require('express-async-handler')
 
+const Show = require('../models/showModel')
+
 //@desc Get shows
 //@route GET /api/shows
 //@access PRIVATE
 const getShows = asyncHandler(async (req, res) => {
-    res.status(200).json({message: 'Get Shows.'})
+    const shows = await Show.find()
+
+    res.status(200).json(shows)
 })
 
 //@desc Set a show
@@ -13,25 +17,49 @@ const getShows = asyncHandler(async (req, res) => {
 //@access PRIVATE
 const setShow = asyncHandler(async (req, res) => {
     //error handler -- no show name or ID
-    if(!req.body.text){
+    if(!req.body.title){
         res.status(400)
         throw new Error('Please add a text field, representing the name or ID of the show.')
     }
-    res.status(200).json({message: 'Add a Show'})
+
+    const show = await Show.create({
+        title: req.body.title,
+        poster: req.body.poster
+    })
+
+    res.status(200).json(show)
 })
 
 //@desc Update a show
 //@route PUT /api/shows/:id
 //@access PRIVATE
 const updateShow = asyncHandler(async (req, res) => {
-    res.status(200).json({message: `Update Show ${req.params.id}`})
+    const show = await Show.findById(req.params.id)
+
+    if(!show){
+        res.status(400)
+        throw new Error('Show not found')
+    }
+    
+    const updatedShow = await Show.findByIdAndUpdate(req.params.id, req.body, {new: true,})
+
+    res.status(200).json(updatedShow)
 })
 
 //@desc Delete a show
 //@route DELETE /api/shows/:id
 //@access PRIVATE
 const deleteShow = asyncHandler(async (req, res) => {
-    res.status(200).json({message: `Delete Show ${req.params.id}`})
+    const show = await Show.findById(req.params.id)
+
+    if(!show){
+        res.status(400)
+        throw new Error('Show not found')
+    }
+
+    await show.deleteOne()
+
+    res.status(200).json({id: req.params.id})
 })
 
 module.exports = {
