@@ -10,7 +10,6 @@ function SearchItem({show}) {
         e.preventDefault()
         dispatch(createShow({title:show.title, poster:show.image.url}))            
     }
-    console.log(show)
     if(!show.image){
       return <div className="show">
       <h2>{show.title}</h2>

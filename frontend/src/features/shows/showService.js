@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api/shows'
+const API_URL = 'http://localhost:5000/api/shows/'
 
 const createShow = async (showData, token) => {
     
@@ -9,7 +9,6 @@ const createShow = async (showData, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    console.log(showData)
     const response = await axios.post(API_URL, showData, config)
 
     return response.data
@@ -31,10 +30,26 @@ const getShows = async (token) => {
 
 }
 
+// Delete a show
+const deleteShow = async (showId, token) => {
+
+    
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.delete(API_URL + showId, config)
+
+    return response.data
+
+}
+
 
 const showService = {
     createShow,
     getShows,
+    deleteShow,
 }
 
 export default showService

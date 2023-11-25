@@ -11,7 +11,6 @@ const initialState ={
 
 //create a new Show
 export const createShow = createAsyncThunk('shows/create', async (showData, thunkAPI) => {
-    console.log(showData)
     try{
         const token = thunkAPI.getState().auth.user.token
         return await showService.createShow(showData, token)
@@ -26,6 +25,20 @@ export const getShows = createAsyncThunk('shows/getAll', async (_, thunkAPI) => 
     try {
         const token = thunkAPI.getState().auth.user.token
         return await showService.getShows(token)
+    }catch(error){
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
+//delete a Show
+export const deleteShow = createAsyncThunk('shows/delete', async (id, thunkAPI) => {
+    console.log(id)
+    
+    try{
+        const token = thunkAPI.getState().auth.user.token
+        console.log(token)
+        return await showService.deleteShow(id, token)
     }catch(error){
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -62,6 +75,19 @@ export const showSlice = createSlice({
             state.shows = action.payload
         })
         .addCase(getShows.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+        })
+        .addCase(deleteShow.pending, (state) => {
+            state.isLoading = true
+        })
+        .addCase(deleteShow.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.shows = state.shows.filter((show) => show._id !== action.payload.id)
+        })
+        .addCase(deleteShow.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.message = action.payload
