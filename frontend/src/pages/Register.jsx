@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react"
+import {useSelector, useDispatch} from 'react-redux' //useSelector to select something from state, if we want to dispatch a function (like register, or reset fromt he reducer) usedispatch
+import {useNavigate} from 'react-router-dom'
+import {toast }  from "react-toastify"
+import {register, reset} from '../features/auth/authSlice'
 import { FaUser } from "react-icons/fa"
+import Spinner from "../components/Spinner"
+
 
 
 
@@ -13,6 +19,23 @@ function Register() {
 
   const {name, email, password, password2} = formData
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    if(isError) {
+      toast.error(message)
+    }
+
+    if(isSuccess || user) {
+      navigate('/')
+    }
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+  
   const onChange = (e) => {
     setFormData((prevState) => ({ //Set formData to an object by creating an Object....placing Braces inside parenthsesis, and spreading the previous state (of formData)
       ...prevState,
@@ -22,6 +45,20 @@ function Register() {
 
   const onSubmit = (e) => {
     e.preventDefault()
+
+    if(password !== password2){
+      toast.error('Passwords do not match.')
+    } else {
+      const userData = {
+        name,email,password,
+      }
+
+      dispatch(register(userData))
+    }
+  }
+
+  if(isLoading){
+    return <Spinner />
   }
 
   return (

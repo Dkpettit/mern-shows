@@ -9,6 +9,8 @@
 body {
   font-family: 'Poppins', sans-serif;
   height: 100vh;
+  background: #000;
+  color: #edf0f1;
 }
 
 a {
@@ -37,7 +39,7 @@ h3 {
 
 .container {
   width: 100%;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
@@ -86,26 +88,29 @@ h3 {
   color: #828282;
 }
 
-.goals {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+.shows {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  color: #fff;
 }
 
-.goal {
-  background-color: #f4f4f4;
-  margin: 10px 0;
-  padding: 20px 0 10px;
-  position: relative;
+.show {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  background-color: #272727;
 }
 
-.goal .close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  border: none;
-  background: none;
+.show img {
+  max-width: 300px;
+  border-radius: 12px;
 }
 
 .form,
@@ -139,7 +144,7 @@ h3 {
   padding: 10px 20px;
   border: 1px solid #000;
   border-radius: 5px;
-  background: #000;
+  background: #272727;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
@@ -149,6 +154,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
 }
 
 .btn svg {
@@ -189,6 +195,27 @@ h3 {
   border-color: #000 transparent #555 transparent;
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
+}
+
+.modal {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  background: lightgrey;
+  color: #edf0f1;
+}
+
+.modalClose {
+  background-color: lightgrey;
+  border: none;
+  width: 65px;
+  height: 65px;
+}
+
+.deleteBtn {
+  background-color: #272727;
+  border: none;
+  width: 65px;
+  height: 65px;
 }
 
 @keyframes spin {

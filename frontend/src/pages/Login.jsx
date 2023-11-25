@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react"
 import { FaSignInAlt } from "react-icons/fa"
+import {useSelector, useDispatch} from 'react-redux' //useSelector to select something from state, if we want to dispatch a function (like register, or reset fromt he reducer) usedispatch
+import {useNavigate} from 'react-router-dom'
+import {toast }  from "react-toastify"
+import {login, reset} from '../features/auth/authSlice'
+import Spinner from "../components/Spinner"
 
 
 
@@ -11,6 +16,23 @@ function Login() {
 
   const {email, password} = formData
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    if(isError) {
+      toast.error(message)
+    }
+
+    if(isSuccess || user) {
+      navigate('/')
+    }
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+
   const onChange = (e) => {
     setFormData((prevState) => ({ //Set formData to an object by creating an Object....placing Braces inside parenthsesis, and spreading the previous state (of formData)
       ...prevState,
@@ -20,6 +42,16 @@ function Login() {
 
   const onSubmit = (e) => {
     e.preventDefault()
+    const userData = {
+      email,
+      password
+    }
+
+    dispatch(login(userData))
+  }
+
+  if(isLoading){
+    return <Spinner />
   }
 
   return (

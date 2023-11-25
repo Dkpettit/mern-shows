@@ -43,14 +43,13 @@ const updateShow = asyncHandler(async (req, res) => {
         throw new Error('Show not found')
     }
 
-    const user = await User.findById(req.user.id)
     //check for user
-    if(!user){
+    if(!req.user){
         res.status(401)
         throw new Error('User not found.')
     }
     //make sure the logged in user matches the owner of the show
-    if(show.user.toString() !== user.id){
+    if(show.user.toString() !== req.user.id){
         res.status(401)
         throw new Error('User not authorized.')
     }
@@ -71,14 +70,13 @@ const deleteShow = asyncHandler(async (req, res) => {
         throw new Error('Show not found')
     }
 
-    const user = await User.findById(req.user.id)
     //check for user
-    if(!user){
+    if(!req.user){
         res.status(401)
         throw new Error('User not found.')
     }
     //make sure the logged in user matches the owner of the show
-    if(show.user.toString() !== user.id){
+    if(show.user.toString() !== req.user.id){
         res.status(401)
         throw new Error('User not authorized.')
     }
