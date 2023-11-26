@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api/shows/'
+const API_URL = (process.env.NODE_ENV === 'production') ? 'https://mernappdave-7eca150cce5f.herokuapp.com/api/shows/' : 'http://localhost:5000/api/shows/'
 
 const createShow = async (showData, token) => {
     
