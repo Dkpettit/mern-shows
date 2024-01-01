@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-
 const API_URL = (process.env.NODE_ENV === 'production') ? 'https://mernappdave-7eca150cce5f.herokuapp.com/api/users/' : 'http://localhost:5000/api/users/'
 
 // Register user
@@ -17,7 +16,7 @@ const register = async (userData) => {
 // Login user
 const login = async (userData) => {
     const response = await axios.post(API_URL + 'login', userData)
-
+    console.log(response)
     if(response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
     }
