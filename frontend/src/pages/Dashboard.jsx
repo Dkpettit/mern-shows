@@ -6,7 +6,7 @@ import { getShows, reset } from "../features/shows/showSlice"
 import ShowItem from "../components/ShowItem"
 import SearchItem from "../components/SearchItem"
 import axios from "axios"
-import Modal from "react-modal"
+import Modal from 'react-modal'
 import { GrFormClose } from "react-icons/gr";
 
 let showArr = []
