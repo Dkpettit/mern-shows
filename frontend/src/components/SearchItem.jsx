@@ -1,15 +1,22 @@
 import { GrAddCircle } from "react-icons/gr";
 import { useDispatch } from "react-redux"
+import React, { useCallback } from 'react'
 import {createShow} from '../features/shows/showSlice'
 
 
-function SearchItem({show}) {
+function SearchItem({show, onAddShow}) {
   const dispatch = useDispatch()
+
+    const handleCloseModal = useCallback(() => {
+      onAddShow();
+    },[onAddShow])
 
     const onSubmit = e => {
         e.preventDefault()
-        dispatch(createShow({title:show.title, poster:show.image.url}))            
+        dispatch(createShow({title:show.title, poster:show.image.url}))
+        handleCloseModal()        
     }
+
     if(!show.image){
       return <div className="show">
       <h2>{show.title}</h2>

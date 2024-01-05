@@ -93,7 +93,7 @@ function Dashboard() {
         <button className="modalClose" onClick={setModalIsOpenToFalse}><h1><GrFormClose /></h1></button>         
           {showArr.length > 0 ? (<div className="shows">
           {showArr.map((show) => (            
-            <SearchItem key={show.id} show={show} />
+            <SearchItem key={show.id} show={show} onAddShow={setModalIsOpenToFalse} />
           ))}
         </div>) : (<h3>No Results to display.</h3>)}
         </Modal>
