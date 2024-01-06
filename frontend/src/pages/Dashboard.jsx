@@ -30,15 +30,21 @@ function Dashboard() {
 
 
   useEffect(() => {
-   
+
     if(isError){
       console.log(message)
-    }
+    } 
+
     if(!user){
       navigate('/login')
     }
-
+   if(user){
     dispatch(getShows())
+   }
+   else {
+    navigate('/login')
+   }
+    
 
     return () => {
       dispatch(reset())
@@ -101,7 +107,7 @@ function Dashboard() {
 {/* Add a show input
       <ShowForm /> */}
 
-      {/* {shows.length > 0 ? (<div className="shows">
+      {shows.length > 0 ? (<div className="shows">
           {shows.map((show) => (
             <>
             <ShowItem key={show._id} show={show} />
@@ -111,7 +117,7 @@ function Dashboard() {
             
             
           ))}
-        </div>) : (<h3>You have no shows saved.</h3>)} */}
+        </div>) : (<h3>You have no shows saved.</h3>)}
 
     </>
   )
